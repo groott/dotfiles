@@ -1,0 +1,382 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   A good example can be found on
+;   http://ix.io/1T5W
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+background = ${xrdb:color0:#FF242a34}
+;background = 00ffffff
+background-alt = ${xrdb:color0:#FF242a34}
+;background-alt = 00ffffff
+foreground = ${xrdb:color7:#FFa7adba}
+foreground-alt = #FF777d8a
+primary = ${xrdb:color4:#FFbf616a}
+secondary = #00aaff
+alert = ${xrdb:color1}
+battery-charging = #00aaff
+battery-discharging = #ffaa00
+battery-full = #00ffaa
+
+[bar/top]
+monitor = ${env:MONITOR:eDP1}
+bottom = false
+width = 100%
+height = 34
+offset-x = 0
+offset-y = 0
+;override-redirect = true
+;radius = 6.0
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+;line-size = 2
+;line-color = #f00
+
+underline-size = 2
+underline-color = ${colors.foreground}
+
+;border-size = 20
+;border-size = 10
+;border-size = 0
+;border-bottom-size = 0
+;border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+margin-right = 5
+module-margin-left = 1
+module-margin-right = 3
+
+font-0 = SF Pro Display:pixelsize=12;2
+font-1 = FontAwesome:pixelsize=13;3
+font-2 = Material Icons:pixelsize=13;3
+font-3 = SpaceMono Nerd Font Mono:pixelsize=20;5
+
+fixed-center = true
+
+modules-left = i3
+modules-center = spotify
+modules-right = updates-arch temperature volume wireless-network battery powermenu date time
+
+;tray-position = false
+;tray-detached = false
+;tray-maxsize = 16
+;tray-transparent = false
+;tray-background = ${root.background}
+;tray-offset-x = 0
+;tray-offset-y = 0
+; Pad the sides of each tray icon
+tray-padding = 8
+; Scale factor for tray clients
+;tray-scale = 1.0
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:120:...%
+label-padding = 4
+
+[module/spotify]
+type = custom/script
+exec = ~/.config/polybar/spotify
+interval = 2
+
+format =   <label>
+label = %output%
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background}
+label-focused-foreground = ${colors.foreground}
+label-focused-underline= ${colors.background}
+label-focused-padding = 4
+
+label-occupied = %index%
+label-occupied-foreground = ${colors.foreground-alt}
+label-occupied-padding = 4
+
+label-urgent = %index%!
+label-urgent-background = ${colors.background-alt}
+label-urgent-foreground = ${colors.alert}
+label-urgent-padding = 4
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 4
+
+[module/i3]
+type = internal/i3
+
+format = <label-state><label-mode>
+index-sort = true
+wrapping-scroll = false
+strip-wsnumbers = true
+
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.background}
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+label-focused = %name%
+label-focused-background = ${colors.foreground}
+label-focused-foreground = ${colors.background}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = ${module/bspwm.label-focused-padding}
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %name%
+label-unfocused-foreground = ${module/bspwm.label-occupied-foreground}
+label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %name%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %name%
+label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent-foreground = ${module/bspwm.label-urgent-foreground}
+label-urgent-padding = ${module/bspwm.label-urgent-padding}
+
+[module/mpd]
+type = internal/mpd
+format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+[module/wireless-network]
+type = internal/network
+interface = wlp2s0
+interval = 3.0
+
+format-connected = <ramp-signal>  <label-connected>
+;format-connected-underline = #9f78e1
+label-connected = %{A:wpa_gui&:}online%{A}
+label-connected-foreground = ${colors.foreground-alt}
+
+format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = offline
+label-disconnected-foreground = ${colors.foreground-alt}
+
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+#ramp-signal-4 = 
+ramp-signal-foreground = ${colors.foreground-alt}
+
+[module/date]
+type = internal/date
+interval = 1.0
+
+date = "%A %d %b"
+label = %date%
+label-foreground = ${colors.foreground}
+label-background = ${colors.background}
+
+[module/time]
+type = internal/date
+interval = 1.0
+
+label = %time%  
+time = %H:%M
+
+label-padding-right = 4
+label-padding-left = 4
+
+format-background = ${colors.foreground}
+format-foreground = ${colors.background}
+
+[module/redshift]
+type = custom/script
+interval = 5
+
+exec = ~/.config/polybar/redshift.sh
+click-left = ~/scripts/red.sh
+
+[module/volume]
+type = internal/volume
+
+format-volume = <ramp-volume>  <label-volume>
+format-voulme-padding = 0
+format-volume-foreground = ${colors.foreground-alt}
+label-volume = %percentage%
+
+;format-muted-prefix = " "
+format-muted = <label-muted>
+format-muted-foreground = ${colors.foreground-alt}
+label-muted = "mute"
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-headphones-0 = 
+ramp-headphones-1 = 
+ramp-headphones-2 = 
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 97
+poll-interval = 5.0
+
+format-charging = <animation-charging>  <label-charging>
+format-charging-padding = 0
+
+format-discharging = <ramp-capacity>  <label-discharging>
+format-discharging-padding = 0
+
+format-full = <label-full>
+format-full-padding = 0
+format-full-foreground = ${colors.battery-full}
+
+label-charging = %percentage%
+label-discharging = %percentage%
+label-full = 
+label-charging-foreground = ${colors.foreground-alt}
+label-discharging-foreground = ${colors.foreground-alt}
+label-full-foreground = ${colors.foreground-alt}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-framerate = 750
+
+[module/temperature]
+type = internal/temperature
+interval = 0.5
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input
+warn-temperature = 60
+
+format = <ramp>  <label>
+format-warn = <ramp>  <label-warn>
+
+label = %temperature%
+label-foreground = ${colors.foreground-alt}
+label-warn = %temperature%
+label-warn-foreground = ${colors.alert}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+
+ramp-foreground = ${colors.foreground-alt}
+
+[module/backlight]
+type = internal/backlight
+
+card = intel_backlight
+enable-scroll = true
+
+;format = <ramp><label>
+format = <ramp>
+label = %percentage%
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+
+[module/cmus]
+type = custom/script
+
+exec = sh ~/.config/polybar/cmus.sh
+exec-if = pgrep -x cmus
+interval = 1
+
+click-left = cmus-remote --pause
+click-right = cmus-remote --stop
+
+[module/mpv]
+type = custom/script
+
+exec = sh ~/.config/polybar/mpv.sh
+exec-if = pgrep -x mpv
+interval = 1
+
+format = <label>
+label = %output%
+
+[module/bluetooth]
+type = custom/script
+interval = 5
+
+exec = ~/.config/polybar/bluetooth.sh
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = 
+label-open-foreground = ${colors.foreground-alt}
+label-close = 
+label-close-foreground = ${colors.foreground}
+label-separator = " " 
+label-separator-foreground = ${colors.foreground-alt}
+
+menu-0-0 = 
+menu-0-0-exec = reboot
+menu-0-1 = 
+menu-0-1-exec = systemctl poweroff
+menu-0-2 = 
+menu-0-2-exec = i3-msg exit
+
+[module/updates-arch]
+type = custom/script
+exec = ~/scripts/updates-arch.sh
+interval = 600
+format =   <label>
+format-foreground = ${colors.foreground-alt}
+label = %output%
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
