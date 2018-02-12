@@ -1,0 +1,8 @@
+
+rofi.color-enabled: true
+
+rofi.color-window: #ff242a34, #ff242a34, #ff242a34
+!                  bg       fg       bg-alt   hl-bg    hl-fg
+rofi.color-normal: #00242a34, #b7bdca, #00242a34, #00242a34, #bf616a
+rofi.color-active: #d79921, #282828, #d79921, #fabd2f, #282828
+rofi.color-urgent: #cc241d, #282828, #cc241d, #fb4934, #282828

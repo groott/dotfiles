@@ -1,0 +1,11 @@
+! Colors
+#include ".Xresources.d/colors-eighties"
+
+! URxvt
+#include ".Xresources.d/urxvt"
+
+! Font Settings
+#include ".Xresources.d/fonts"
+
+! Rofi
+#include ".Xresources.d/rofi"

@@ -1,0 +1,26 @@
+! General settings
+URxvt.scrollBar: none
+URxvt.internalBorder: 30
+URxvt.tintColor: white
+URxvt.inheritPixmap: false
+
+! Transparency - real
+!URxvt*depth: 32
+!URxvt*background: rgba:2200/2700/3200/f555
+
+! Transparency - fake
+!URxvt.transparent: true
+!URxvt.shading: 20
+
+! Set urxvt as login shell
+URxvt*loginShell: true
+
+! Font settings
+URxvt.font: xft:SpaceMono Nerd Font Mono:regular:size=12,xft:PowerlineSymbols
+URxvt.letterSpace: -1
+
+URxvt*iso14755: false
+URxvt*iso14755_52: false
+
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
