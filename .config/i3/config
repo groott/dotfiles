@@ -12,11 +12,11 @@
 set $mod Mod4
 
 # colors
-set_from_resource $border       i3wm.color0 #2d2d2d
-set_from_resource $background   i3wm.color0 #2d2d2d
-set_from_resource $text         i3wm.color8 #747369
-set_from_resource $active       i3wm.color4 #6699cc
-set_from_resource $inactive     i3wm.color7 #d3d0c8
+set_from_resource $border       i3wm.color0 #2b303b
+set_from_resource $background   i3wm.color0 #2b303b
+set_from_resource $text         i3wm.color7 #eff1f5
+set_from_resource $active       i3wm.color4 #bfa1b3
+set_from_resource $inactive     i3wm.color15 #c0c5ce
 
 set $bar-height 40
 set $border-width 0
@@ -75,11 +75,11 @@ mode "$mode_gaps" {
 }
 
 # window colors         Border      Background  Text        Indicator   Child_Border
-client.focused          $inactive     $inactive   $background $border     $inactive
-client.focused_inactive $background $background   $text $background $background
-client.unfocused        $background $background $background $background $background
-client.urgent           $background $background $background $background $background
-client.placeholder      $background $background $background $background $background
+client.focused          $border     $background $text       $background $background
+client.focused_inactive $border     $background $text       $background $background
+client.unfocused        $border     $background $text       $background $background
+client.urgent           $border     $background $text       $background $background
+client.placeholder      $border     $background $text       $background $background
 client.background       $background
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -234,7 +234,7 @@ bindsym $mod+r mode "resize"
 #        status_command i3status
 #}
 
-bindsym $mod+Shift+x exec betterlockscreen -l dimblur
+bindsym $mod+Shift+x exec betterlockscreen -l
 
 # Screenshots
 bindsym --release Print exec "scrot -m '/home/maciek/pictures/screenshots/%s_%H%M_%d.%m.%Y_$wx$h.png'"
@@ -254,6 +254,12 @@ bindsym Shift+XF86MonBrightnessDown exec xbacklight -dec 15
 bindsym XF86KbdBrightnessUp exec kbdbacklight up
 bindsym XF86KbdBrightnessDown exec kbdbacklight down
 
+bindsym --release button2 kill
+
+#bindsym Super_L exec --no-startup-id /home/maciek/scripts/video-output.sh
+
+for_window [class="Chromium" window_role="pop-up"] floating enable, border normal
+
 for_window [class="Spotify"] move to workspace $WS10
 
 exec --no-startup-id exec compton -b --config ~/.config/compton/compton.conf --backend glx --paint-on-overlay --vsync opengl-swc
@@ -269,7 +275,7 @@ exec --no-startup-id exec i3-msg 'workspace $WS9; exec messengerfordesktop'
 exec --no-startup-id exec i3-msg 'workspace $WS10; exec spotify'
 
 # Set wallpaper
-exec_always feh --bg-scale $HOME/pictures/wallpapers/leafs.jpg
+exec_always feh --bg-scale $HOME/pictures/wallpapers/ghost.jpg
 
 # Run polybar
 exec_always --no-startup-id exec ~/.config/polybar/launch.sh

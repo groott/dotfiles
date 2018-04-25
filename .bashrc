@@ -10,6 +10,7 @@ PS1='[\u@\h \W]\$ '
 exec fish
 export LANG=en_US.UTF-8
 alias wpa_gui="sudo wpa_gui"
+alias checkupdates="sudo checkupdates"
 
 powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1

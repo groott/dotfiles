@@ -14,7 +14,7 @@ let g:pymcd_powerline="py3"
 
 " Base16 like theme
 colorscheme peachpuff
-let g:airline_theme='base16_eighties'
+let g:airline_theme='base16_ocean'
 set guifont=SpaceMono\ Nerd\ Font\ Mono\ 12
 
 " use UTF-8

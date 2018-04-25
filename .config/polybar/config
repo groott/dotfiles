@@ -11,18 +11,20 @@
 ;=====================================================
 
 [colors]
-background = ${xrdb:color0:#FF242a34}
+background = ${xrdb:color0}
 ;background = 00ffffff
-background-alt = ${xrdb:color0:#FF242a34}
+background-alt = ${xrdb:color0}
 ;background-alt = 00ffffff
-foreground = ${xrdb:color7:#FFa7adba}
-foreground-alt = #FF777d8a
-primary = ${xrdb:color4:#FFbf616a}
+foreground = ${xrdb:color7}
+foreground-alt = ${xrdb:color15}
+primary = ${xrdb:color4}
 secondary = #00aaff
 alert = ${xrdb:color1}
 battery-charging = #00aaff
 battery-discharging = #ffaa00
 battery-full = #00ffaa
+highlight = ${xrdb:color1}
+magenta = ${xrdb:color5}
 
 [bar/top]
 monitor = ${env:MONITOR:eDP1}
@@ -52,19 +54,21 @@ underline-color = ${colors.foreground}
 padding-left = 0
 padding-right = 0
 margin-right = 5
-module-margin-left = 1
-module-margin-right = 3
+module-margin-left = 0
+module-margin-right = 0
 
 font-0 = Noto:pixelsize=12;2
 font-1 = FontAwesome:pixelsize=13;3
 font-2 = Material Icons:pixelsize=13;3
 font-3 = SpaceMono Nerd Font Mono:pixelsize=20;5
+font-4 = Weather Icons:size=16;4
+font-5 = Noto:pixelsize=12:weight=bold;2
 
 fixed-center = true
 
 modules-left = i3
 modules-center = spotify
-modules-right = updates-arch temperature volume wireless-network battery powermenu date time
+modules-right = updates-arch temperature volume wireless-network battery powermenu date weather-icon weather time
 
 ;tray-position = false
 ;tray-detached = false
@@ -152,18 +156,25 @@ label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-foreground = ${module/bspwm.label-urgent-foreground}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+[module/weather]
+type = custom/script
+exec = ~/scripts/openweathermap.sh
+interval = 600
+label-font = 0
+format-background = ${colors.magenta}
+format-foreground = ${colors.background}
+format-padding = 0
+click-left = chromium https://openweathermap.org/city/756135
 
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-
-label-song-maxlen = 25
-label-song-ellipsis = true
+[module/weather-icon]
+type = custom/script
+exec = ~/scripts/openweathermap-icon.sh
+interval = 600
+label-font = 5
+format-background = ${colors.magenta}
+format-foreground = ${colors.background}
+format-padding = 4
+click-left = chromium https://openweathermap.org/city/756135
 
 [module/wireless-network]
 type = internal/network
@@ -177,7 +188,7 @@ label-connected-foreground = ${colors.foreground-alt}
 
 format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
-label-disconnected = offline
+label-disconnected = %{A:wpa_gui&:}offline%{A}
 label-disconnected-foreground = ${colors.foreground-alt}
 
 ramp-signal-0 = 
@@ -190,11 +201,14 @@ ramp-signal-foreground = ${colors.foreground-alt}
 [module/date]
 type = internal/date
 interval = 1.0
-
+label-font = 0
 date = "%A %d %b"
-label = %date%
+label = "%date%"
 label-foreground = ${colors.foreground}
 label-background = ${colors.background}
+label-padding-right = 4
+label-padding-left = 4
+click-left = chromium https://calendar.google.com
 
 [module/time]
 type = internal/date
@@ -205,9 +219,14 @@ time = %H:%M
 
 label-padding-right = 4
 label-padding-left = 4
+label-margin = 0
+label-font = 6
 
-format-background = ${colors.foreground}
-format-foreground = ${colors.background}
+#format-background = ${colors.highlight}
+#format-foreground = ${colors.background}
+format-background = ${colors.background}
+format-foreground = ${colors.magenta}
+
 
 [module/redshift]
 type = custom/script
@@ -228,6 +247,7 @@ label-volume = %percentage%
 format-muted = <label-muted>
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = "mute"
+format-muted-padding = 4
 
 ramp-volume-0 = 
 ramp-volume-1 = 
@@ -235,6 +255,8 @@ ramp-volume-2 = 
 ramp-headphones-0 = 
 ramp-headphones-1 = 
 ramp-headphones-2 = 
+
+format-volume-padding = 4
 
 [module/battery]
 type = internal/battery
@@ -244,13 +266,13 @@ full-at = 97
 poll-interval = 5.0
 
 format-charging = <animation-charging>  <label-charging>
-format-charging-padding = 0
+format-charging-padding = 4
 
 format-discharging = <ramp-capacity>  <label-discharging>
-format-discharging-padding = 0
+format-discharging-padding = 4
 
 format-full = <label-full>
-format-full-padding = 0
+format-full-padding = 4
 format-full-foreground = ${colors.battery-full}
 
 label-charging = %percentage%
@@ -367,6 +389,8 @@ interval = 600
 format =   <label>
 format-foreground = ${colors.foreground-alt}
 label = %output%
+format-padding = 4
+click-left = termite -e "sudo pacman -Syu" &
 
 [settings]
 screenchange-reload = true

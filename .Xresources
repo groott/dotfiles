@@ -1,5 +1,5 @@
 ! Colors
-#include ".Xresources.d/colors-eighties"
+#include ".Xresources.d/colors-ocean"
 
 ! URxvt
 #include ".Xresources.d/urxvt"
